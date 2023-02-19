@@ -10,9 +10,10 @@ import Login from "./components/login.component";
 import Register from "./components/register.component";
 import Home from "./components/home.component";
 import Profile from "./components/profile.component";
-import BoardUser from "./components/board-user.component";
+import {BoardRental} from "./components/board-rental.component";
 import BoardModerator from "./components/board-moderator.component";
 import BoardAdmin from "./components/board-admin.component";
+
 
 import EventBus from "./common/EventBus";
 
@@ -141,7 +142,7 @@ class App extends Component<Props, State> {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/profile" element={<Profile />} />
-            <Route path="/rental" element={<BoardUser />} />
+            <Route path="/rental" element={<BoardRental />} />
             <Route path="/mod" element={<BoardModerator />} />
             <Route path="/admin" element={<BoardAdmin />} />
           </Routes>
