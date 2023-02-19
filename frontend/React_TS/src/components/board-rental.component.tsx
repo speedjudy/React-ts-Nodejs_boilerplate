@@ -15,7 +15,7 @@ export function BoardRental() {
   useEffect(() => {
     getDataRental();
   }, [])
-
+  const logined = sessionStorage.getItem("user");
   const getDataRental = () => {
     RentalService.getRental(
 
@@ -107,67 +107,70 @@ export function BoardRental() {
   }
   return (
     <div className="App">
-      <ImageUploading
-        value={images}
-        onChange={onChange}
-        maxNumber={maxNumber}
-      >
-        {({
-          imageList,
-          onImageUpload,
-          onImageRemoveAll,
-          onImageUpdate,
-          onImageRemove,
-          isDragging,
-          dragProps
-        }) => (
-          // write your building UI
-          <div className="upload__image-wrapper" style={{ display: "inline-flex" }}>
-            <button
-              style={isDragging ? { color: "red" } : undefined}
-              onClick={onImageUpload}
-              {...dragProps}
-            >
-              Image Upload
-            </button>
-            &nbsp;
-            {imageList.map((image, index) => (
-              <div key={index} className="image-item">
-                <img src={image.dataURL} alt="" width="100" />
-                <div className="image-item__btn-wrapper">
-                  {/* <button onClick={() => onImageUpdate(index)}>Update</button>
-                  <button onClick={() => onImageRemove(index)}>Remove</button> */}
+      <div className={(logined)?"hide":"show"}>Not permit</div>
+      <div className={(logined)?"show":"hide"}>
+        <ImageUploading
+          value={images}
+          onChange={onChange}
+          maxNumber={maxNumber}
+        >
+          {({
+            imageList,
+            onImageUpload,
+            onImageRemoveAll,
+            onImageUpdate,
+            onImageRemove,
+            isDragging,
+            dragProps
+          }) => (
+            // write your building UI
+            <div className="upload__image-wrapper" style={{ display: "inline-flex" }}>
+              <button
+                style={isDragging ? { color: "red" } : undefined}
+                onClick={onImageUpload}
+                {...dragProps}
+              >
+                Image Upload
+              </button>
+              &nbsp;
+              {imageList.map((image, index) => (
+                <div key={index} className="image-item">
+                  <img src={image.dataURL} alt="" width="100" />
+                  <div className="image-item__btn-wrapper">
+                    {/* <button onClick={() => onImageUpdate(index)}>Update</button>
+                    <button onClick={() => onImageRemove(index)}>Remove</button> */}
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
-        )}
-      </ImageUploading>
-      Name: <input type="text" value={name} onChange={handleNameChange} />
-      Address: <input type="text" value={addr} onChange={handleAddrChange} />
-      <button onClick={handleSave}>Save</button>
-      <table className="table table-striped">
-        <thead>
-          <tr>
-            <th>No</th>
-            <th>Name</th>
-            <th>Addr</th>
-            <th>Image</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {data.map((obj, index) => (
-            <tr key={index} className="image-item">
-              <td>{index + 1}</td>
-              <td>{obj['name']}</td>
-              <td>{obj['address']}</td>
-              <td><img src={obj['image']} alt="" width="100" /></td>
-              <td><button id={obj['_id']} onClick={handleRemove}>Remove</button></td>
+              ))}
+            </div>
+          )}
+        </ImageUploading>
+        Name: <input type="text" value={name} onChange={handleNameChange} />
+        Address: <input type="text" value={addr} onChange={handleAddrChange} />
+        <button onClick={handleSave}>Save</button>
+        <table className="table table-striped">
+          <thead>
+            <tr>
+              <th>No</th>
+              <th>Name</th>
+              <th>Addr</th>
+              <th>Image</th>
+              <th>Action</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {data.map((obj, index) => (
+              <tr key={index} className="image-item">
+                <td>{index + 1}</td>
+                <td>{obj['name']}</td>
+                <td>{obj['address']}</td>
+                <td><img src={obj['image']} alt="" width="100" /></td>
+                <td><button id={obj['_id']} onClick={handleRemove}>Remove</button></td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }
