@@ -5,11 +5,12 @@ const API_URL = 'http://localhost:4000/api/rental/';
 
 class RentalService {
 
-  addRental(name: string, addr: string, image: string) {
+  addRental(name: string, addr: string, image: string, flag: string) {
     return axios.post(API_URL + "add", {
       name,
       addr,
-      image
+      image,
+      flag
     });
   }
   getRental() {

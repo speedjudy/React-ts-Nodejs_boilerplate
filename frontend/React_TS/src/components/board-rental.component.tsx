@@ -5,6 +5,7 @@ import ImageUploading, { ImageListType } from "react-images-uploading";
 export function BoardRental() {
   const [images, setImages] = React.useState([]);
   const [data, setData] = React.useState([]);
+  const [flag, setFlag] = React.useState([] as any);
   const [name, setNameChange] = React.useState([] as any);
   const [addr, setAddrChange] = React.useState([] as any);
 
@@ -17,6 +18,7 @@ export function BoardRental() {
   }, [])
   const logined = sessionStorage.getItem("user");
   const getDataRental = () => {
+    setFlag("Save");
     RentalService.getRental(
 
     ).then(
@@ -77,13 +79,25 @@ export function BoardRental() {
     );
 
   }
-
+  const handleEdit = (e: any) => {
+    let id = e.target.id;
+    for (let i = 0; i < data.length; i++) {
+      if (data[i]['_id']==id) {
+          setNameChange(data[i]['name']);
+          setAddrChange(data[i]['address']);
+          setImagesBase(data[i]['image']);
+          setFlag(id);
+      }
+    }
+    console.log(data, id);
+  }
   const handleSave = () => {
-    console.log(baseImage, name, addr);
+    console.log(baseImage, name, addr, flag);
     RentalService.addRental(
       name,
       addr,
-      baseImage
+      baseImage,
+      flag
     ).then(
       response => {
         console.log(response);
@@ -107,8 +121,8 @@ export function BoardRental() {
   }
   return (
     <div className="App">
-      <div className={(logined)?"hide":"show"}>Not permit</div>
-      <div className={(logined)?"show":"hide"}>
+      <div className={(logined) ? "hide" : "show"}>Not permit</div>
+      <div className={(logined) ? "show" : "hide"}>
         <ImageUploading
           value={images}
           onChange={onChange}
@@ -165,7 +179,7 @@ export function BoardRental() {
                 <td>{obj['name']}</td>
                 <td>{obj['address']}</td>
                 <td><img src={obj['image']} alt="" width="100" /></td>
-                <td><button id={obj['_id']} onClick={handleRemove}>Remove</button></td>
+                <td><button id={obj['_id']} onClick={handleRemove}>Remove</button><button id={obj['_id']} onClick={handleEdit}>Edit</button></td>
               </tr>
             ))}
           </tbody>
